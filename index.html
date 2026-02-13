@@ -3,276 +3,445 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Be My Valentine?</title>
-    
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    
-    <!-- React & ReactDOM -->
-    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
-    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
-    
-    <!-- Babel for JSX -->
-    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-    
+    <title>Be My Valentine? 💝</title>
     <style>
-        body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; }
-        /* Custom animations */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow-x: hidden;
+        }
+
+        .container {
+            text-align: center;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 50px 40px;
+            border-radius: 30px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            max-width: 700px;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        h1 {
+            font-size: 3em;
+            color: #ff6b9d;
+            margin-bottom: 10px;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .cat-names {
+            font-size: 1.2em;
+            color: #666;
+            margin-bottom: 20px;
+            font-style: italic;
+        }
+
+        .question {
+            font-size: 2em;
+            color: #333;
+            margin-bottom: 30px;
+            font-weight: 600;
+        }
+
+        .cat-image-container {
+            margin: 30px 0;
+            min-height: 350px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .cat-image {
+            width: 100%;
+            max-width: 400px;
+            height: 300px;
+            object-fit: cover;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .emotion-text {
+            font-size: 1.5em;
+            color: #ff6b9d;
+            margin-top: 20px;
+            font-weight: bold;
+            min-height: 40px;
+        }
+
+        .buttons {
+            display: flex;
+            gap: 30px;
+            justify-content: center;
+            position: relative;
+            min-height: 120px;
+            align-items: center;
+            margin-top: 30px;
+        }
+
+        button {
+            padding: 20px 50px;
+            font-size: 1.5em;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        #yesBtn {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+        }
+
+        #yesBtn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 8px 25px rgba(245, 87, 108, 0.4);
+        }
+
+        #noBtn {
+            background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+            color: #333;
+            position: absolute;
+            transition: all 0.2s ease;
+        }
+
+        #noBtn:hover {
+            transform: scale(1.05);
+        }
+
+        .celebration {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+
+        .celebration.active {
+            display: flex;
+        }
+
+        .celebration h1 {
+            font-size: 4em;
+            color: #ff6b9d;
+            margin-bottom: 30px;
+            animation: bounce 1s infinite;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+
+        .celebration-image {
+            width: 450px;
+            height: 350px;
+            object-fit: cover;
+            border-radius: 30px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+            margin: 20px 0;
+        }
+
+        .hearts {
+            font-size: 5em;
+            margin: 20px 0;
+            animation: float 3s ease-in-out infinite;
+        }
+
         @keyframes float {
-            0% { transform: translateY(0px); }
-            50% { transform: translateY(-10px); }
-            100% { transform: translateY(0px); }
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-30px) rotate(10deg); }
+        }
+
+        .kiss {
+            font-size: 3em;
+            display: inline-block;
+            animation: kiss 0.5s ease-in-out infinite;
+            margin: 0 10px;
+        }
+
+        @keyframes kiss {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.3); }
+        }
+
+        .confetti {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            background: #f0f;
+            animation: fall 3s linear infinite;
+        }
+
+        @keyframes fall {
+            to {
+                transform: translateY(100vh) rotate(360deg);
+            }
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0) rotate(0deg); }
+            25% { transform: translateX(-10px) rotate(-2deg); }
+            75% { transform: translateX(10px) rotate(2deg); }
+        }
+
+        .shake {
+            animation: shake 0.5s;
+        }
+
+        .floating-heart {
+            position: fixed;
+            font-size: 3em;
+            pointer-events: none;
+            animation: floatUp 4s ease-in forwards;
+        }
+
+        @keyframes floatUp {
+            0% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        .message {
+            font-size: 2em;
+            color: #ff6b9d;
+            margin-top: 20px;
+            font-weight: 600;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
         }
     </style>
 </head>
 <body>
-    <div id="root"></div>
+    <div class="container" id="container">
+        <h1>💝 Will You Be My Valentine? 💝</h1>
+        <div class="cat-names">~ Mochi & Peach ~</div>
+        <div class="question">Will you be my Valentine?</div>
+        
+        <div class="cat-image-container">
+            <img id="catImage" class="cat-image" src="" alt="Mochi and Peach">
+            <div class="emotion-text" id="emotionText"></div>
+        </div>
 
-    <script type="text/babel">
-        const { useState, useEffect } = React;
+        <div class="buttons">
+            <button id="yesBtn">Yes! 💕</button>
+            <button id="noBtn">No</button>
+        </div>
+    </div>
 
-        // Inline SVG Icons to replace Lucide imports
-        const HeartIcon = ({ size = 24, className = "" }) => (
-            <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
-                <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"></path>
-            </svg>
-        );
+    <div class="celebration" id="celebration">
+        <h1>YAAAY! 🎉💖🎊</h1>
+        <img class="celebration-image" id="celebrationImage" src="" alt="Celebrating cats">
+        <div class="hearts">💖💕💗💓💝</div>
+        <div>
+            <span class="kiss">💋</span>
+            <span class="kiss" style="animation-delay: 0.2s;">😘</span>
+            <span class="kiss" style="animation-delay: 0.4s;">💋</span>
+            <span class="kiss" style="animation-delay: 0.6s;">😘</span>
+            <span class="kiss" style="animation-delay: 0.8s;">💋</span>
+        </div>
+        <div class="message">Mochi & Peach are so happy! 💕✨</div>
+        <div class="message" style="font-size: 1.5em; margin-top: 10px;">I knew you'd say yes! 🥰</div>
+    </div>
 
-        const ValentineApp = () => {
-            const [stage, setStage] = useState(0); // 0 = start, 1-4 = pleading, 5 = threat, 6 = success
-            const [noButtonPos, setNoButtonPos] = useState({ top: 'auto', left: 'auto' });
-            const [noButtonSize, setNoButtonSize] = useState(1);
-            const [yesButtonSize, setYesButtonSize] = useState(1);
-            const [windowSize, setWindowSize] = useState({ width: 0, height: 0 });
-            const [imageError, setImageError] = useState(false);
+    <script>
+        let noClickCount = 0;
+        const noBtn = document.getElementById('noBtn');
+        const yesBtn = document.getElementById('yesBtn');
+        const catImage = document.getElementById('catImage');
+        const emotionText = document.getElementById('emotionText');
+        const celebration = document.getElementById('celebration');
+        const container = document.getElementById('container');
+        const celebrationImage = document.getElementById('celebrationImage');
 
-            useEffect(() => {
-                const handleResize = () => {
-                    setWindowSize({
-                        width: window.innerWidth,
-                        height: window.innerHeight,
-                    });
-                };
-                // Initial set
-                handleResize();
+        // Cat couple emotions with corresponding images
+        const emotions = [
+            {
+                state: 'happy',
+                image: 'https://images.unsplash.com/photo-1548681528-6a5c45b66b42?w=500&h=400&fit=crop',
+                text: '😊 We\'re so happy together! 💕',
+                message: ''
+            },
+            {
+                state: 'pleading',
+                image: 'https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?w=500&h=400&fit=crop',
+                text: '🥺 Please? Pretty please? 🙏',
+                message: 'Mochi and Peach are begging...'
+            },
+            {
+                state: 'sad',
+                image: 'https://images.unsplash.com/photo-1573865526739-10c1dd52e0db?w=500&h=400&fit=crop',
+                text: '😢 You\'re making us sad... 💔',
+                message: 'Their hearts are breaking...'
+            },
+            {
+                state: 'crying',
+                image: 'https://images.unsplash.com/photo-1495360010541-f48722b34f7d?w=500&h=400&fit=crop',
+                text: '😭 We\'re crying now! Please reconsider! 💧',
+                message: 'The tears won\'t stop...'
+            },
+            {
+                state: 'angry',
+                image: 'https://images.unsplash.com/photo-1574158622682-e40e69881006?w=500&h=400&fit=crop',
+                text: '😾 That\'s it! You\'ve made us ANGRY! 💢',
+                message: 'You really don\'t want to see angry cats...'
+            },
+            {
+                state: 'super-angry',
+                image: 'https://images.unsplash.com/photo-1513360371669-4adf3dd7dff8?w=500&h=400&fit=crop',
+                text: '😡 FINE! We\'re VERY angry now! 🔥',
+                message: 'This is your last chance!!!'
+            }
+        ];
+
+        const celebrationImages = [
+            'https://images.unsplash.com/photo-1450778869180-41d0601e046e?w=500&h=400&fit=crop',
+            'https://images.unsplash.com/photo-1518791841217-8f162f1e1131?w=500&h=400&fit=crop',
+            'https://images.unsplash.com/photo-1529778873920-4da4926a72c2?w=500&h=400&fit=crop'
+        ];
+
+        // Initialize with happy cats
+        updateEmotion(0);
+
+        function updateEmotion(index) {
+            const emotion = emotions[Math.min(index, emotions.length - 1)];
+            catImage.src = emotion.image;
+            emotionText.textContent = emotion.text;
+            
+            // Add shake effect when sad or angry
+            if (index >= 2) {
+                container.classList.add('shake');
+                setTimeout(() => container.classList.remove('shake'), 500);
+            }
+        }
+
+        noBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            noClickCount++;
+
+            // Update emotion based on click count
+            updateEmotion(noClickCount);
+
+            // Move button to random position
+            const maxX = window.innerWidth - 200;
+            const maxY = window.innerHeight - 100;
+            const randomX = Math.floor(Math.random() * maxX);
+            const randomY = Math.floor(Math.random() * maxY);
+            
+            noBtn.style.position = 'fixed';
+            noBtn.style.left = randomX + 'px';
+            noBtn.style.top = randomY + 'px';
+
+            // Shrink NO button progressively
+            const newSize = Math.max(0.4, 1 - (noClickCount * 0.12));
+            noBtn.style.transform = `scale(${newSize})`;
+
+            // Grow YES button progressively
+            const yesSize = 1 + (noClickCount * 0.25);
+            yesBtn.style.transform = `scale(${yesSize})`;
+
+            // Extra effects for angry stages
+            if (noClickCount >= 4) {
+                // Change background to more intense colors
+                document.body.style.background = 'linear-gradient(135deg, #fc4a1a 0%, #f7b733 100%)';
                 
-                window.addEventListener('resize', handleResize);
-                return () => window.removeEventListener('resize', handleResize);
-            }, []);
-
-            // Reset image error state when stage changes
-            useEffect(() => {
-                setImageError(false);
-            }, [stage]);
-
-            const stages = [
-                {
-                    text: "Will you be my Valentine?",
-                    subtext: "I promise I'm a good catch! 🐼",
-                    image: "https://images.unsplash.com/photo-1564349683136-77e08dba1ef7?auto=format&fit=crop&w=600&q=80",
-                    fallbackEmoji: "🐼",
-                    bgColor: "bg-pink-100"
-                },
-                {
-                    text: "Pretty prease? 🥺",
-                    subtext: "Look at this face!",
-                    image: "https://images.unsplash.com/photo-1543789647-380d0d84407b?auto=format&fit=crop&w=600&q=80",
-                    fallbackEmoji: "🥺",
-                    bgColor: "bg-red-50"
-                },
-                {
-                    text: "Think again...",
-                    subtext: "My heart is breaking! 💔",
-                    image: "https://images.unsplash.com/photo-1535295972055-1c762f4483e5?auto=format&fit=crop&w=600&q=80",
-                    fallbackEmoji: "😭",
-                    bgColor: "bg-red-100"
-                },
-                {
-                    text: "Last chance!",
-                    subtext: "Don't be cold as ice! 🧊",
-                    image: "https://images.unsplash.com/photo-1555685812-4b943f1cb0eb?auto=format&fit=crop&w=600&q=80",
-                    fallbackEmoji: "🥶",
-                    bgColor: "bg-red-200"
-                },
-                {
-                    text: "You are making a mistake.",
-                    subtext: "Have a heart!",
-                    image: "https://images.unsplash.com/photo-1515185565551-7d1a525a415b?auto=format&fit=crop&w=600&q=80",
-                    fallbackEmoji: "💔",
-                    bgColor: "bg-red-300"
-                },
-                {
-                    text: "Be my Valentine. Or else.",
-                    subtext: "There are two options: Yes, or YES.",
-                    image: "https://images.unsplash.com/photo-1513245543132-31f507417b26?auto=format&fit=crop&w=600&q=80",
-                    fallbackEmoji: "😼",
-                    bgColor: "bg-gray-900"
-                }
-            ];
-
-            const handleNoClick = () => {
-                const nextStage = stage < 5 ? stage + 1 : 5;
-                setStage(nextStage);
-
-                const padding = 100; // Keep button away from very edges
-                const randomX = Math.random() * (windowSize.width - padding * 2) + padding;
-                const randomY = Math.random() * (windowSize.height - padding * 2) + padding;
-
-                setNoButtonPos({
-                    position: 'absolute',
-                    top: `${randomY}px`,
-                    left: `${randomX}px`,
-                });
-
-                setNoButtonSize(prev => Math.max(0.5, prev * 0.8));
-                setYesButtonSize(prev => Math.min(3, prev * 1.2));
-            };
-
-            const handleYesClick = () => {
-                setStage(6);
-            };
-
-            // Success Screen
-            if (stage === 6) {
-                return (
-                    <div className="min-h-screen bg-pink-200 flex flex-col items-center justify-center p-4 relative overflow-hidden font-sans">
-                        {/* Confetti Hearts Animation */}
-                        <div className="absolute inset-0 pointer-events-none">
-                            {[...Array(30)].map((_, i) => (
-                                <div 
-                                    key={i}
-                                    className="absolute animate-bounce text-pink-500 opacity-60"
-                                    style={{
-                                        left: `${Math.random() * 100}%`,
-                                        top: `${Math.random() * 100}%`,
-                                        animationDelay: `${Math.random() * 2}s`,
-                                        fontSize: `${Math.random() * 20 + 20}px`
-                                    }}
-                                >
-                                    ❤️
-                                </div>
-                            ))}
-                        </div>
-
-                        <div className="z-10 bg-white p-8 rounded-3xl shadow-2xl text-center max-w-md w-full border-4 border-pink-400 transform transition-all hover:scale-105">
-                            <h1 className="text-4xl font-bold text-pink-600 mb-4">YAY!!! 🎉</h1>
-                            <img 
-                                src="https://images.unsplash.com/photo-1518199266791-5375a83190b7?auto=format&fit=crop&w=600&q=80" 
-                                alt="Happy Cats" 
-                                className="w-full h-64 object-cover rounded-xl mb-6"
-                            />
-                            <p className="text-xl text-gray-700 font-medium">I knew you'd say yes! ❤️</p>
-                            <button 
-                                onClick={() => window.location.reload()}
-                                className="mt-6 px-6 py-2 bg-pink-500 text-white rounded-full hover:bg-pink-600 transition font-bold"
-                            >
-                                Play Again
-                            </button>
-                        </div>
-                    </div>
-                );
+                // Make the whole container shake
+                container.classList.add('shake');
+                setTimeout(() => container.classList.remove('shake'), 500);
             }
 
-            const currentContent = stages[stage];
-            const isThreatLevel = stage === 5;
+            if (noClickCount >= 5) {
+                // Even more dramatic effects
+                document.body.style.background = 'linear-gradient(135deg, #eb3349 0%, #f45c43 100%)';
+                noBtn.textContent = noClickCount === 5 ? 'NO?!' : 'REALLY?!';
+            }
+        });
 
-            return (
-                <div className={`min-h-screen transition-colors duration-700 flex flex-col items-center justify-center p-4 overflow-hidden font-sans ${currentContent.bgColor}`}>
+        yesBtn.addEventListener('click', function() {
+            celebration.classList.add('active');
+            celebrationImage.src = celebrationImages[Math.floor(Math.random() * celebrationImages.length)];
+            createConfetti();
+            createFloatingHearts();
+            createFireworks();
+        });
+
+        function createConfetti() {
+            const colors = ['#ff6b9d', '#f5576c', '#ffd700', '#ff69b4', '#ff1493', '#ffc0cb'];
+            for (let i = 0; i < 150; i++) {
+                setTimeout(() => {
+                    const confetti = document.createElement('div');
+                    confetti.className = 'confetti';
+                    confetti.style.left = Math.random() * 100 + '%';
+                    confetti.style.background = colors[Math.floor(Math.random() * colors.length)];
+                    confetti.style.animationDelay = Math.random() * 3 + 's';
+                    confetti.style.width = Math.random() * 15 + 5 + 'px';
+                    confetti.style.height = confetti.style.width;
+                    celebration.appendChild(confetti);
                     
-                    {/* Background Decor */}
-                    <div className="absolute top-10 left-10 text-pink-300 opacity-50 animate-pulse">
-                        <HeartIcon size={48} />
-                    </div>
-                    <div className="absolute bottom-10 right-10 text-pink-300 opacity-50 animate-pulse">
-                         <HeartIcon size={48} />
-                    </div>
-                    
-                    <div className="z-10 text-center max-w-lg w-full">
-                        {/* Dynamic Image Container */}
-                        <div className="relative group mx-auto w-64 h-64 mb-8">
-                            <div className={`absolute inset-0 rounded-full blur-xl opacity-70 animate-pulse ${isThreatLevel ? 'bg-red-600' : 'bg-pink-400'}`}></div>
-                            
-                            {!imageError ? (
-                                <img 
-                                    src={currentContent.image} 
-                                    alt="Reaction" 
-                                    onError={() => setImageError(true)}
-                                    className={`relative w-full h-full object-cover rounded-2xl shadow-xl transition-all duration-500 ${isThreatLevel ? 'grayscale contrast-125' : ''}`}
-                                />
-                            ) : (
-                                <div className="w-full h-full bg-white/50 rounded-2xl flex items-center justify-center text-8xl shadow-xl">
-                                    {currentContent.fallbackEmoji}
-                                </div>
-                            )}
-                        
-                            {/* Overlays for "Pleading" or "Threat" effects */}
-                            {!isThreatLevel && stage > 0 && (
-                                <div className="absolute -top-6 -right-6 bg-white p-3 rounded-tr-xl rounded-bl-xl rounded-tl-xl shadow-lg animate-bounce transform rotate-12">
-                                    <span className="text-sm font-bold text-pink-500">Please?</span>
-                                </div>
-                            )}
-                            
-                            {isThreatLevel && (
-                                <div className="absolute -bottom-4 -right-4 text-6xl drop-shadow-lg filter transform -rotate-12">
-                                    🗡️
-                                </div>
-                            )}
-                        </div>
+                    setTimeout(() => confetti.remove(), 3000);
+                }, i * 30);
+            }
+        }
 
-                        {/* Text */}
-                        <h1 className={`text-4xl md:text-5xl font-bold mb-2 transition-colors duration-300 ${isThreatLevel ? 'text-red-600 font-black tracking-widest uppercase' : 'text-pink-600'}`}>
-                            {currentContent.text}
-                        </h1>
-                        <p className={`text-xl mb-12 font-medium ${isThreatLevel ? 'text-white' : 'text-gray-600'}`}>
-                            {currentContent.subtext}
-                        </p>
+        function createFloatingHearts() {
+            setInterval(() => {
+                const hearts = ['❤️', '💕', '💖', '💗', '💝', '💓', '💞', '💘'];
+                const heart = document.createElement('div');
+                heart.className = 'floating-heart';
+                heart.textContent = hearts[Math.floor(Math.random() * hearts.length)];
+                heart.style.left = Math.random() * 100 + '%';
+                heart.style.top = '100%';
+                celebration.appendChild(heart);
+                
+                setTimeout(() => heart.remove(), 4000);
+            }, 300);
+        }
 
-                        {/* Buttons Area */}
-                        <div className="relative h-32 flex items-center justify-center gap-8 w-full">
-                            
-                            {/* YES Button */}
-                            <button
-                                onClick={handleYesClick}
-                                style={{ 
-                                    transform: `scale(${yesButtonSize})`,
-                                    transition: 'all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275)'
-                                }}
-                                className="z-50 bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-8 rounded-full shadow-lg flex items-center gap-2 whitespace-nowrap"
-                            >
-                                {isThreatLevel ? 'YES (Safe Option)' : 'YES ❤️'}
-                            </button>
-
-                            {/* NO Button */}
-                            <button
-                                onClick={handleNoClick}
-                                style={
-                                    noButtonPos.position === 'absolute' 
-                                    ? { 
-                                            position: 'fixed', 
-                                            top: noButtonPos.top, 
-                                            left: noButtonPos.left,
-                                            transform: `scale(${noButtonSize})`,
-                                            transition: 'all 0.5s ease',
-                                            zIndex: 40
-                                        }
-                                    : {}
-                                }
-                                className={`
-                                    bg-red-400 hover:bg-red-500 text-white font-bold py-3 px-8 rounded-full shadow-lg transition-all duration-300 whitespace-nowrap
-                                    ${stage > 0 && noButtonPos.position !== 'absolute' ? 'absolute' : ''}
-                                `}
-                            >
-                                {isThreatLevel ? 'NO' : 'NO'} 
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            );
-        };
-
-        const root = ReactDOM.createRoot(document.getElementById('root'));
-        root.render(<ValentineApp />);
+        function createFireworks() {
+            const fireworkColors = ['#ff6b9d', '#f5576c', '#ffd700', '#ff69b4', '#ff1493'];
+            
+            setInterval(() => {
+                const firework = document.createElement('div');
+                firework.style.position = 'fixed';
+                firework.style.left = Math.random() * 100 + '%';
+                firework.style.top = Math.random() * 50 + '%';
+                firework.style.fontSize = '3em';
+                firework.textContent = '✨';
+                firework.style.animation = 'float 2s ease-out forwards';
+                celebration.appendChild(firework);
+                
+                setTimeout(() => firework.remove(), 2000);
+            }, 500);
+        }
     </script>
 </body>
 </html>
-
