@@ -3,444 +3,250 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Be My Valentine? 💝</title>
+    <title>Be My Valentine?</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- React & ReactDOM -->
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <!-- Babel -->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
+        @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;900&display=swap');
+        
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            overflow-x: hidden;
+            font-family: 'Nunito', sans-serif;
+            overflow: hidden; /* Prevent scrolling when button moves */
         }
 
-        .container {
-            text-align: center;
-            background: rgba(255, 255, 255, 0.95);
-            padding: 50px 40px;
-            border-radius: 30px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-            max-width: 700px;
-            position: relative;
-            transition: all 0.3s ease;
-        }
-
-        h1 {
-            font-size: 3em;
-            color: #ff6b9d;
-            margin-bottom: 10px;
-            animation: pulse 2s infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-        }
-
-        .cat-names {
-            font-size: 1.2em;
-            color: #666;
-            margin-bottom: 20px;
-            font-style: italic;
-        }
-
-        .question {
-            font-size: 2em;
-            color: #333;
-            margin-bottom: 30px;
-            font-weight: 600;
-        }
-
-        .cat-image-container {
-            margin: 30px 0;
-            min-height: 350px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .cat-image {
-            width: 100%;
-            max-width: 400px;
-            height: 300px;
-            object-fit: cover;
-            border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-            transition: all 0.3s ease;
-        }
-
-        .emotion-text {
-            font-size: 1.5em;
-            color: #ff6b9d;
-            margin-top: 20px;
-            font-weight: bold;
-            min-height: 40px;
-        }
-
-        .buttons {
-            display: flex;
-            gap: 30px;
-            justify-content: center;
-            position: relative;
-            min-height: 120px;
-            align-items: center;
-            margin-top: 30px;
-        }
-
-        button {
-            padding: 20px 50px;
-            font-size: 1.5em;
-            border: none;
-            border-radius: 50px;
-            cursor: pointer;
-            font-weight: bold;
-            transition: all 0.3s ease;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-        }
-
-        #yesBtn {
-            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-            color: white;
-        }
-
-        #yesBtn:hover {
-            transform: scale(1.1);
-            box-shadow: 0 8px 25px rgba(245, 87, 108, 0.4);
-        }
-
-        #noBtn {
-            background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
-            color: #333;
-            position: absolute;
-            transition: all 0.2s ease;
-        }
-
-        #noBtn:hover {
-            transform: scale(1.05);
-        }
-
-        .celebration {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
-            z-index: 1000;
-            justify-content: center;
-            align-items: center;
-            flex-direction: column;
-        }
-
-        .celebration.active {
-            display: flex;
-        }
-
-        .celebration h1 {
-            font-size: 4em;
-            color: #ff6b9d;
-            margin-bottom: 30px;
-            animation: bounce 1s infinite;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
-        }
-
-        @keyframes bounce {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-20px); }
-        }
-
-        .celebration-image {
-            width: 450px;
-            height: 350px;
-            object-fit: cover;
-            border-radius: 30px;
-            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
-            margin: 20px 0;
-        }
-
-        .hearts {
-            font-size: 5em;
-            margin: 20px 0;
-            animation: float 3s ease-in-out infinite;
-        }
-
-        @keyframes float {
-            0%, 100% { transform: translateY(0) rotate(0deg); }
-            50% { transform: translateY(-30px) rotate(10deg); }
-        }
-
-        .kiss {
-            font-size: 3em;
-            display: inline-block;
-            animation: kiss 0.5s ease-in-out infinite;
-            margin: 0 10px;
-        }
-
-        @keyframes kiss {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.3); }
+        /* Custom Confetti Animation */
+        @keyframes fall {
+            0% { transform: translateY(-10vh) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
         }
 
         .confetti {
-            position: fixed;
+            position: absolute;
             width: 10px;
             height: 10px;
-            background: #f0f;
-            animation: fall 3s linear infinite;
+            animation: fall linear forwards;
+            z-index: 50;
         }
 
-        @keyframes fall {
-            to {
-                transform: translateY(100vh) rotate(360deg);
-            }
-        }
-
-        @keyframes shake {
-            0%, 100% { transform: translateX(0) rotate(0deg); }
-            25% { transform: translateX(-10px) rotate(-2deg); }
-            75% { transform: translateX(10px) rotate(2deg); }
-        }
-
-        .shake {
-            animation: shake 0.5s;
-        }
-
-        .floating-heart {
-            position: fixed;
-            font-size: 3em;
-            pointer-events: none;
-            animation: floatUp 4s ease-in forwards;
-        }
-
-        @keyframes floatUp {
-            0% {
-                transform: translateY(0) rotate(0deg);
-                opacity: 1;
-            }
-            100% {
-                transform: translateY(-100vh) rotate(360deg);
-                opacity: 0;
-            }
-        }
-
-        .message {
-            font-size: 2em;
-            color: #ff6b9d;
-            margin-top: 20px;
-            font-weight: 600;
-            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+        /* Smooth transitions for button movement */
+        .btn-transition {
+            transition: all 0.3s ease;
         }
     </style>
 </head>
 <body>
-    <div class="container" id="container">
-        <h1>💝 Will You Be My Valentine? 💝</h1>
-        <div class="question">Will you be my Valentine?</div>
-        
-        <div class="cat-image-container">
-            <img id="catImage" class="cat-image" src="" alt="Cute cat couple">
-            <div class="emotion-text" id="emotionText"></div>
-        </div>
+    <div id="root"></div>
 
-        <div class="buttons">
-            <button id="yesBtn">Yes! 💕</button>
-            <button id="noBtn">No</button>
-        </div>
-    </div>
+    <script type="text/babel">
+        const { useState, useEffect, useRef } = React;
 
-    <div class="celebration" id="celebration">
-        <h1>YAAAY! 🎉💖🎊</h1>
-        <img class="celebration-image" id="celebrationImage" src="" alt="Celebrating cats">
-        <div class="hearts">💖💕💗💓💝</div>
-        <div>
-            <span class="kiss">💋</span>
-            <span class="kiss" style="animation-delay: 0.2s;">😘</span>
-            <span class="kiss" style="animation-delay: 0.4s;">💋</span>
-            <span class="kiss" style="animation-delay: 0.6s;">😘</span>
-            <span class="kiss" style="animation-delay: 0.8s;">💋</span>
-        </div>
-        <div class="message">They are so happy! 💕✨</div>
-        <div class="message" style="font-size: 1.5em; margin-top: 10px;">I knew you'd say yes! 🥰</div>
-    </div>
-
-    <script>
-        let noClickCount = 0;
-        const noBtn = document.getElementById('noBtn');
-        const yesBtn = document.getElementById('yesBtn');
-        const catImage = document.getElementById('catImage');
-        const emotionText = document.getElementById('emotionText');
-        const celebration = document.getElementById('celebration');
-        const container = document.getElementById('container');
-        const celebrationImage = document.getElementById('celebrationImage');
-
-        // Cat couple emotions with corresponding images
-        const emotions = [
+        // --- Data & Assets ---
+        const STAGES = [
             {
-                state: 'happy',
-                image: 'https://images.unsplash.com/photo-1548681528-6a5c45b66b42?w=500&h=400&fit=crop',
-                text: '😊 We\'re so happy together! 💕',
-                message: ''
+                text: "Will you be my Valentine?",
+                img: "https://media1.tenor.com/m/K2Q_1tyQvKAAAAAC/mochi-cat-peach.gif", // Happy jumping
+                btnNo: "No"
             },
             {
-                state: 'pleading',
-                image: 'https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?w=500&h=400&fit=crop',
-                text: '🥺 Please? Pretty please? 🙏',
-                message: 'Mochi and Peach are begging...'
+                text: "Pretty please? 🥺",
+                img: "https://media1.tenor.com/m/7zK_pGj_sQIAAAAC/mochi-cat-pleading.gif", // Pleading
+                btnNo: "Are you sure?"
             },
             {
-                state: 'sad',
-                image: 'https://images.unsplash.com/photo-1519052537078-e6302a4968d4?w=500&h=400&fit=crop',
-                text: '😢 You\'re making us sad... 💔',
-                message: 'Their hearts are breaking...'
+                text: "My heart is breaking! 💔",
+                img: "https://media1.tenor.com/m/17XgQY4W_WAAAAAC/mochi-peach.gif", // Sad
+                btnNo: "Don't do this"
             },
             {
-                state: 'crying',
-                image: 'https://images.unsplash.com/photo-1495360010541-f48722b34f7d?w=500&h=400&fit=crop',
-                text: '😭 We\'re crying now! Please reconsider! 💧',
-                message: 'The tears won\'t stop...'
+                text: "Don't be cold as ice! 😭",
+                img: "https://media1.tenor.com/m/bZ1kF6hWjJ0AAAAC/mochi-cat-crying.gif", // Crying
+                btnNo: "Last chance!"
             },
             {
-                state: 'angry',
-                image: 'https://images.unsplash.com/photo-1574158622682-e40e69881006?w=500&h=400&fit=crop',
-                text: '😾 That\'s it! You\'ve made us ANGRY! 💢',
-                message: 'You really don\'t want to see angry cats...'
-            },
-            {
-                state: 'super-angry',
-                image: 'https://images.unsplash.com/photo-1513360371669-4adf3dd7dff8?w=500&h=400&fit=crop',
-                text: '😡 FINE! We\'re VERY angry now! 🔥',
-                message: 'This is your last chance!!!'
+                text: "BE MY VALENTINE. OR ELSE. 🔪",
+                img: "https://media1.tenor.com/m/9sF_tWkS3cAAAAAC/mochi-cat-knife.gif", // Angry with knife
+                btnNo: "O...Okay",
+                isThreat: true
             }
         ];
 
-        const celebrationImages = [
-            'https://images.unsplash.com/photo-1450778869180-41d0601e046e?w=500&h=400&fit=crop',
-            'https://images.unsplash.com/photo-1518791841217-8f162f1e1131?w=500&h=400&fit=crop',
-            'https://images.unsplash.com/photo-1529778873920-4da4926a72c2?w=500&h=400&fit=crop'
-        ];
+        const SUCCESS_IMG = "https://media1.tenor.com/m/T_m25VwO2OAAAAAC/peach-goma-love.gif"; // Kissing
 
-        // Initialize with happy cats
-        updateEmotion(0);
+        // --- Components ---
 
-        function updateEmotion(index) {
-            const emotion = emotions[Math.min(index, emotions.length - 1)];
-            catImage.src = emotion.image;
-            emotionText.textContent = emotion.text;
+        const Confetti = () => {
+            const [particles, setParticles] = useState([]);
+
+            useEffect(() => {
+                const colors = ['#ff0000', '#ff69b4', '#ffd700', '#00ff00', '#00bfff'];
+                const particleCount = 100;
+                const newParticles = [];
+
+                for (let i = 0; i < particleCount; i++) {
+                    newParticles.push({
+                        id: i,
+                        x: Math.random() * 100,
+                        delay: Math.random() * 2,
+                        duration: 2 + Math.random() * 3,
+                        color: colors[Math.floor(Math.random() * colors.length)]
+                    });
+                }
+                setParticles(newParticles);
+            }, []);
+
+            return (
+                <div className="fixed inset-0 pointer-events-none overflow-hidden">
+                    {particles.map(p => (
+                        <div
+                            key={p.id}
+                            className="confetti"
+                            style={{
+                                left: `${p.x}%`,
+                                top: -20,
+                                backgroundColor: p.color,
+                                animationDuration: `${p.duration}s`,
+                                animationDelay: `${p.delay}s`
+                            }}
+                        />
+                    ))}
+                </div>
+            );
+        };
+
+        const App = () => {
+            const [noCount, setNoCount] = useState(0);
+            const [yesPressed, setYesPressed] = useState(false);
+            const [noBtnPosition, setNoBtnPosition] = useState({ top: null, left: null });
             
-            // Add shake effect when sad or angry
-            if (index >= 2) {
-                container.classList.add('shake');
-                setTimeout(() => container.classList.remove('shake'), 500);
-            }
-        }
+            // Limit stages to the length of the array
+            const currentStageIndex = Math.min(noCount, STAGES.length - 1);
+            const currentStage = STAGES[currentStageIndex];
+            const isThreatMode = currentStage.isThreat;
 
-        noBtn.addEventListener('click', function(e) {
-            e.preventDefault();
-            noClickCount++;
-
-            // Update emotion based on click count
-            updateEmotion(noClickCount);
-
-            // Move button to random position
-            const maxX = window.innerWidth - 200;
-            const maxY = window.innerHeight - 100;
-            const randomX = Math.floor(Math.random() * maxX);
-            const randomY = Math.floor(Math.random() * maxY);
+            // Calculate Yes button scale (grows 20% each time)
+            const yesScale = 1 + (noCount * 0.2);
             
-            noBtn.style.position = 'fixed';
-            noBtn.style.left = randomX + 'px';
-            noBtn.style.top = randomY + 'px';
+            // Calculate No button scale (shrinks 20% each time)
+            const noScale = Math.max(0.1, 1 - (noCount * 0.2));
 
-            // Shrink NO button progressively
-            const newSize = Math.max(0.4, 1 - (noClickCount * 0.12));
-            noBtn.style.transform = `scale(${newSize})`;
+            const handleNoClick = () => {
+                setNoCount(noCount + 1);
+                moveNoButton();
+            };
 
-            // Grow YES button progressively
-            const yesSize = 1 + (noClickCount * 0.25);
-            yesBtn.style.transform = `scale(${yesSize})`;
+            const moveNoButton = () => {
+                // Get random X and Y, accounting for button size (approx 100px) and padding
+                const x = Math.random() * (window.innerWidth - 100);
+                const y = Math.random() * (window.innerHeight - 50);
+                setNoBtnPosition({ top: y, left: x });
+            };
 
-            // Extra effects for angry stages
-            if (noClickCount >= 4) {
-                // Change background to more intense colors
-                document.body.style.background = 'linear-gradient(135deg, #fc4a1a 0%, #f7b733 100%)';
-                
-                // Make the whole container shake
-                container.classList.add('shake');
-                setTimeout(() => container.classList.remove('shake'), 500);
+            const handleYesClick = () => {
+                setYesPressed(true);
+            };
+
+            // Dynamic Background Styles
+            const bgClass = isThreatMode 
+                ? "bg-slate-900" 
+                : "bg-gradient-to-br from-pink-200 via-red-200 to-pink-300";
+            
+            const cardClass = isThreatMode
+                ? "bg-slate-800 border-2 border-red-600 shadow-[0_0_20px_rgba(220,38,38,0.5)] text-red-500"
+                : "bg-white/80 backdrop-blur-sm border border-white shadow-xl text-pink-600";
+
+            // --- Success View ---
+            if (yesPressed) {
+                return (
+                    <div className={`flex flex-col items-center justify-center min-h-screen ${bgClass} transition-colors duration-500`}>
+                        <Confetti />
+                        <div className="text-center animate-bounce z-10 p-5">
+                            <img 
+                                src={SUCCESS_IMG} 
+                                alt="Kissing Cats" 
+                                className="h-64 mx-auto rounded-lg shadow-lg mb-8"
+                            />
+                            <h1 className="text-4xl md:text-6xl font-black text-pink-600 drop-shadow-md">
+                                YAY!!! 💖
+                            </h1>
+                            <p className="text-xl md:text-2xl mt-4 font-bold text-pink-500">
+                                I knew you would say yes!
+                            </p>
+                        </div>
+                    </div>
+                );
             }
 
-            if (noClickCount >= 5) {
-                // Even more dramatic effects
-                document.body.style.background = 'linear-gradient(135deg, #eb3349 0%, #f45c43 100%)';
-                noBtn.textContent = noClickCount === 5 ? 'NO?!' : 'REALLY?!';
-            }
-        });
-
-        yesBtn.addEventListener('click', function() {
-            celebration.classList.add('active');
-            celebrationImage.src = celebrationImages[Math.floor(Math.random() * celebrationImages.length)];
-            createConfetti();
-            createFloatingHearts();
-            createFireworks();
-        });
-
-        function createConfetti() {
-            const colors = ['#ff6b9d', '#f5576c', '#ffd700', '#ff69b4', '#ff1493', '#ffc0cb'];
-            for (let i = 0; i < 150; i++) {
-                setTimeout(() => {
-                    const confetti = document.createElement('div');
-                    confetti.className = 'confetti';
-                    confetti.style.left = Math.random() * 100 + '%';
-                    confetti.style.background = colors[Math.floor(Math.random() * colors.length)];
-                    confetti.style.animationDelay = Math.random() * 3 + 's';
-                    confetti.style.width = Math.random() * 15 + 5 + 'px';
-                    confetti.style.height = confetti.style.width;
-                    celebration.appendChild(confetti);
+            // --- Proposal View ---
+            return (
+                <div className={`flex flex-col items-center justify-center min-h-screen p-4 overflow-hidden relative ${bgClass} transition-colors duration-700`}>
                     
-                    setTimeout(() => confetti.remove(), 3000);
-                }, i * 30);
-            }
-        }
+                    <div className={`relative z-10 max-w-md w-full p-8 rounded-3xl text-center btn-transition ${cardClass}`}>
+                        
+                        <img 
+                            src={currentStage.img} 
+                            alt="Reaction Cat" 
+                            className="h-48 mx-auto mb-6 rounded-xl object-contain"
+                        />
+                        
+                        <h1 className={`text-3xl font-extrabold mb-8 ${isThreatMode ? 'text-red-600 tracking-widest uppercase' : 'text-pink-600'}`}>
+                            {currentStage.text}
+                        </h1>
 
-        function createFloatingHearts() {
-            setInterval(() => {
-                const hearts = ['❤️', '💕', '💖', '💗', '💝', '💓', '💞', '💘'];
-                const heart = document.createElement('div');
-                heart.className = 'floating-heart';
-                heart.textContent = hearts[Math.floor(Math.random() * hearts.length)];
-                heart.style.left = Math.random() * 100 + '%';
-                heart.style.top = '100%';
-                celebration.appendChild(heart);
-                
-                setTimeout(() => heart.remove(), 4000);
-            }, 300);
-        }
+                        <div className="flex items-center justify-center gap-4 relative h-16">
+                            
+                            {/* YES BUTTON */}
+                            <button
+                                onClick={handleYesClick}
+                                style={{ transform: `scale(${yesScale})` }}
+                                className={`
+                                    btn-transition
+                                    px-8 py-3 rounded-full font-bold text-white shadow-lg
+                                    ${isThreatMode 
+                                        ? 'bg-red-600 hover:bg-red-700 ring-4 ring-red-900' 
+                                        : 'bg-green-500 hover:bg-green-600'
+                                    }
+                                `}
+                            >
+                                YES
+                            </button>
 
-        function createFireworks() {
-            const fireworkColors = ['#ff6b9d', '#f5576c', '#ffd700', '#ff69b4', '#ff1493'];
-            
-            setInterval(() => {
-                const firework = document.createElement('div');
-                firework.style.position = 'fixed';
-                firework.style.left = Math.random() * 100 + '%';
-                firework.style.top = Math.random() * 50 + '%';
-                firework.style.fontSize = '3em';
-                firework.textContent = '✨';
-                firework.style.animation = 'float 2s ease-out forwards';
-                celebration.appendChild(firework);
-                
-                setTimeout(() => firework.remove(), 2000);
-            }, 500);
-        }
+                            {/* NO BUTTON */}
+                            <button
+                                onClick={handleNoClick}
+                                onMouseEnter={noCount > 0 ? moveNoButton : undefined} // Moves on hover for desktop after 1st click
+                                style={{
+                                    transform: `scale(${noScale})`,
+                                    position: noBtnPosition.top !== null ? 'fixed' : 'static',
+                                    top: noBtnPosition.top,
+                                    left: noBtnPosition.left,
+                                }}
+                                className={`
+                                    btn-transition
+                                    px-8 py-3 rounded-full font-bold text-white shadow-lg
+                                    whitespace-nowrap z-50
+                                    ${isThreatMode 
+                                        ? 'bg-gray-700 hover:bg-gray-800 text-gray-400' 
+                                        : 'bg-red-400 hover:bg-red-500'
+                                    }
+                                `}
+                            >
+                                {currentStage.btnNo}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            );
+        };
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
     </script>
 </body>
 </html>
+
